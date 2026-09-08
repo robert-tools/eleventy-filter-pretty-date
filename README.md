@@ -1,6 +1,6 @@
 # 🗂️ @robert.tools/eleventy-filter-pretty-date
 
-Filter to beautify the date string
+Filter to beautify the date string according to ISO 8601.
 
 ## 📜 Usage
 
@@ -13,10 +13,16 @@ npm install @robert.tools/eleventy-filter-pretty-date
 ### 📝 Sample usage
 
 ```typescript
-import { eleventy-filter-pretty-date } from '@robert.tools/eleventy-filter-pretty-date';
+import prettyDate from '@robert.tools/eleventy-filter-pretty-date';
 
-eleventy-filter-pretty-date('hello'); // 'eleventy-filter-pretty-date: hello'
+prettyDate('2026-10-02', 'MMMM yyyy'); // 'October 2026'
+prettyDate('2026-10-02', 'MMM yyyy', 'de-DE'); // 'Okt 2026'
 ```
+sample: 2026-09-02
+- **year:** `yy` (26) or `yyyy` (2026)
+- **month:** `M` (9) or `MM` (09) or `MMM` (Sep) or `MMMM` (September)
+- **day:** `d` (2) or `dd` (02) or `ddd` (Thu) or `dddd` (Thursday)
+
 
 ## 🗃️ commands
 After an npm install with `npm i` the following commands are available:
