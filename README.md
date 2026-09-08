@@ -1,21 +1,21 @@
-# 🗂️ @robert.tools/sample
+# 🗂️ @robert.tools/eleventy-filter-pretty-date
 
-<description>
+Filter to beautify the date string
 
 ## 📜 Usage
 
 ### 🟢 Installation
 
 ```bash
-npm install @robert.tools/sample
+npm install @robert.tools/eleventy-filter-pretty-date
 ```
 
 ### 📝 Sample usage
 
 ```typescript
-import { <name> } from '@robert.tools/sample';
+import { eleventy-filter-pretty-date } from '@robert.tools/eleventy-filter-pretty-date';
 
-<name>('hello'); // '<name>: hello'
+eleventy-filter-pretty-date('hello'); // 'eleventy-filter-pretty-date: hello'
 ```
 
 ## 🗃️ commands
