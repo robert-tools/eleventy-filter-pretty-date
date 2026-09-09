@@ -56,11 +56,33 @@ describe('✅️ fn()', () => {
     const FN = fn;
     it('should return a pretty date', () => {
         expect(FN('2026-09-02', 'MMMM yyyy')).toBe('September 2026');
-        expect(FN('2026-10-02', 'MMMM yYyy', DE)).toBe('Oktober 2026');
-        expect(FN('2026-10-02', 'MMmM-yyyy', EN)).toBe('October-2026');
-        expect(FN('2026-09-02', 'MMM yy')).toBe('Sep 26');
+        expect(FN('2026-09-02', 'MmM yy')).toBe('Sep 26');
         expect(FN('2026-09-02', 'dd.MM.yyyy')).toBe('02.09.2026');
+        expect(FN('2026-09-02', 'dd:MM:yyyy')).toBe('02:09:2026');
+        expect(FN('2026-09-02', 'dd/MM/yyyy')).toBe('02/09/2026');
         expect(FN('2026-09-02', 'M yyyy')).toBe('9 2026');
-        expect(FN('2026-09-02')).toBe('2026-09-02'); // YYYY
+        expect(FN('2026-09-02')).toBe('2026-09-02'); // no change needed
+    });
+    it('should return a pretty date with localized names', () => {
+        expect(FN('2026-10-02', 'MMMM yyyy', DE)).toBe('Oktober 2026');
+        expect(FN('2026-10-02', 'MMmM-yyyy', EN)).toBe('October-2026');
+    });
+    it('should handle timestamps as string or number', () => {
+        const timestamp = 1688945499038;
+        expect(FN(`${timestamp}`)).toBe('2023-07-10'); // return default formatted date
+        expect(FN(timestamp)).toBe('2023-07-10'); // return default formatted date
+        expect(FN(`${timestamp}`, 'dd.mm.yyy')).toBe('10.07.2023');
+    });
+    it('should handle special keywords', () => {
+        // mock older date as otherwise this test fails each day
+        const spy = jest
+            .spyOn(Date, 'now')
+            .mockImplementation(() => new Date('1996-09-08').getTime());
+        expect(FN('today')).toBe('1996-09-08'); // YYYY
+        expect(FN('now')).toBe('1996-09-08'); // YYYY
+        spy.mockRestore();
+    });
+    it('should handle invalid date input', () => {
+        expect(FN('invalid-date')).toBe('⚠️ invalid-date-input');
     });
 });

@@ -83,23 +83,50 @@ const getMatch = (str: string, regex: RegExp): string => {
 
 /**
  * 🎯 Get a formatted date according to ISO 8601.
- * @param {string} dateString ➡️ The date string in ISO 8601 format.
+ * @param {string|number} input ➡️ The date string, a timestamp or a key word (e.g., 'today', 'now').
  * @param {string} format ➡️ The desired output format (e.g., 'dd.MM.yyyy', 'MMMM yyyy').
  * @param {string} local ➡️ The locale to use for formatting (default is 'en-US').
  * @returns {string} 📤 The formatted date string.
  */
-const fn = (dateString: string, format: string = '', local = EN) => {
-    if (format === '') {
-        return dateString;
+const fn = (input: string | number, format: string = '', local = EN) => {
+    let dateString = String(input);
+    const defaultFormat = 'yyyy-MM-dd';
+    const isTimestamp = /^\d+$/.test(dateString);
+    // const isNumber = typeof input === 'number';
+    const isDate = !isNaN(Date.parse(dateString));
+    if (format === '' && isDate) {
+        return dateString; // return valid date without format
     }
+    if (isTimestamp) {
+        dateString = new Date(parseInt(dateString, 10)).toISOString();
+    } else {
+        if (!isDate) {
+            const now = Date.now();
+            const nowString = new Date(now).toISOString();
+            switch (String(input).trim().toLowerCase()) {
+                case 'today':
+                    dateString = nowString;
+                    break;
+                case 'now':
+                    dateString = nowString;
+                    break;
+                default:
+                    return '⚠️ invalid-date-input';
+            }
+        }
+    }
+    // check if timestamp
     const date = new Date(dateString);
     const regexDay = /(d+)/i;
     const regexMonth = /(M+)/i;
     const regexYear = /(y+)/i;
+    // reset format before extraction
+    if (format === '') {
+        format = defaultFormat;
+    }
     const day = getMatch(format, regexDay);
     const month = getMatch(format, regexMonth);
     const year = getMatch(format, regexYear);
-
     return format
         .replace(regexYear, getYear(date, year, local))
         .replace(regexMonth, getMonth(date, month, local))

@@ -17,6 +17,13 @@ import prettyDate from '@robert.tools/eleventy-filter-pretty-date';
 
 prettyDate('2026-10-02', 'MMMM yyyy'); // 'October 2026'
 prettyDate('2026-10-02', 'MMM yyyy', 'de-DE'); // 'Okt 2026'
+
+// handling timestamps
+prettyDate('1688945499038'); //result: '2023-07-10'
+
+// handling keywords
+prettyDate('today'); //result: '2026-09-02'
+prettyDate('now'); //result: '2026-09-02'
 ```
 sample: 2026-09-02
 - **year:** `yy` (26) or `yyyy` (2026)
